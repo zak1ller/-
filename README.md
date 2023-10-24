@@ -1,4 +1,1 @@
-# flutter_test_1
-
-A new Flutter project.
-# -
+# 플러터 학습을 위한 웹툰 페이지 개발
