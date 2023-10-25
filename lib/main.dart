@@ -36,10 +36,27 @@ class PomodoroApp extends StatefulWidget {
 
 class _PomorodoAppState extends State<PomodoroApp> {
   int counter = 0;
+  bool showTitle = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   void onClickCountButton() {
     setState(() {
       counter += 1;
+    });
+  }
+
+  void toggleTitle() {
+    setState(() {
+      showTitle = !showTitle;
     });
   }
 
@@ -53,13 +70,17 @@ class _PomorodoAppState extends State<PomodoroApp> {
           ),
         ),
       ),
-      home: const Scaffold(
+      home: Scaffold(
         backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MyLargeTitle(),
+              showTitle ? const MyLargeTitle() : const Text('Nothing'),
+              IconButton(
+                onPressed: toggleTitle,
+                icon: const Icon(Icons.remove_red_eye),
+              ),
             ],
           ),
         ),
@@ -68,11 +89,16 @@ class _PomorodoAppState extends State<PomodoroApp> {
   }
 }
 
-class MyLargeTitle extends StatelessWidget {
+class MyLargeTitle extends StatefulWidget {
   const MyLargeTitle({
     super.key,
   });
 
+  @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
   @override
   Widget build(BuildContext context) {
     return Text(
