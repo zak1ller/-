@@ -38,7 +38,9 @@ class _PomorodoAppState extends State<PomodoroApp> {
   int counter = 0;
 
   void onClickCountButton() {
-    counter += 1;
+    setState(() {
+      counter += 1;
+    });
   }
 
   @override
