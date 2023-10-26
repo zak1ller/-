@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_1/pomodoro/views/pomodoro_home.dart';
+import 'package:flutter_test_1/webtoon/views/home_view.dart';
 // import 'package:flutter_test_1/ui_test/source/ui_test_home.dart';
 import 'package:logging/logging.dart';
 
@@ -14,11 +15,22 @@ void main() {
   });
 
   // runApp(const UITestHome());
-  runApp(const App());
+  runApp(const WebtoonApp());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+class WebtoonApp extends StatelessWidget {
+  const WebtoonApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: WebtoonHomeView(),
+    );
+  }
+}
+
+class PomodoroApp extends StatelessWidget {
+  const PomodoroApp({super.key});
 
   @override
   Widget build(BuildContext context) {
