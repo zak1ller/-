@@ -12,19 +12,8 @@ void main() {
     print('${record.level.name}: ${record.time}: ${record.message}');
   });
 
-  // runApp(const UITestApp());
+  // runApp(const UITestHome());
   runApp(const PomodoroApp());
-}
-
-class UITestApp extends StatelessWidget {
-  const UITestApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: UITestHome(),
-    );
-  }
 }
 
 class PomodoroApp extends StatefulWidget {
