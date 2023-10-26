@@ -11,9 +11,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   static const int twentyFiveMinutes = 1500;
-  int totalSeconds = 1500;
-  bool isRunning = false;
+  int totalSeconds = twentyFiveMinutes;
   int totalPomodoros = 0;
+  bool isRunning = false;
   late Timer timer;
 
   void onTick(Timer timer) {
@@ -49,6 +49,15 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  void onResetPressed() {
+    setState(() {
+      isRunning = false;
+      totalSeconds = twentyFiveMinutes;
+      totalPomodoros = 0;
+    });
+    timer.cancel();
+  }
+
   String format(int seconds) {
     final duration = Duration(seconds: seconds);
     return duration.toString().split(".").first.substring(2, 7);
@@ -77,13 +86,27 @@ class _HomeViewState extends State<HomeView> {
           Flexible(
             flex: 2,
             child: Center(
-              child: IconButton(
-                onPressed: isRunning ? onPausePressed : onStartPressed,
-                icon: isRunning
-                    ? const Icon(Icons.pause_circle_outline)
-                    : const Icon(Icons.play_circle_outline),
-                iconSize: 120,
-                color: Theme.of(context).cardColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: isRunning ? onPausePressed : onStartPressed,
+                    icon: isRunning
+                        ? const Icon(Icons.pause_circle_outline)
+                        : const Icon(Icons.play_circle_outline),
+                    iconSize: 120,
+                    color: Theme.of(context).cardColor,
+                  ),
+                  TextButton(
+                    onPressed: onResetPressed,
+                    child: const Text(
+                      'Reset',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
