@@ -5,7 +5,7 @@ import 'package:flutter_test_1/webtoon/services/webtoon_api_service.dart';
 class WebtoonHomeView extends StatelessWidget {
   WebtoonHomeView({super.key});
 
-  Future<List<Webtoon>> webtoons = WebtoonApiService.getTodaysToons();
+  final Future<List<Webtoon>> webtoons = WebtoonApiService.getTodaysToons();
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,21 @@ class WebtoonHomeView extends StatelessWidget {
         future: webtoons,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const Text("There is data!");
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final webtoon = snapshot.data![index];
+                return Text(webtoon.title);
+              },
+              separatorBuilder: (context, index) => const SizedBox(
+                width: 10,
+              ),
+            );
           } else {
-            return const Text("Loading...");
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
