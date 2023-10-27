@@ -44,7 +44,7 @@ class WebtoonHomeView extends StatelessWidget {
                               builder: (context) {
                                 return DetailView(webtoon: webtoon);
                               },
-                              fullscreenDialog: true,
+                              fullscreenDialog: false,
                             ),
                           );
                         },
