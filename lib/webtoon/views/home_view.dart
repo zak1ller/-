@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_1/webtoon/models/webtoon.dart';
 import 'package:flutter_test_1/webtoon/services/webtoon_api_service.dart';
+import 'package:flutter_test_1/webtoon/views/detail_view.dart';
 import 'package:flutter_test_1/webtoon/widgets/webtoon_card.dart';
 
 class WebtoonHomeView extends StatelessWidget {
@@ -34,7 +35,20 @@ class WebtoonHomeView extends StatelessWidget {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final webtoon = snapshot.data![index];
-                      return WebtoonCard(webtoon: webtoon);
+                      return WebtoonCard(
+                        webtoon: webtoon,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return DetailView(webtoon: webtoon);
+                              },
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        },
+                      );
                     },
                     separatorBuilder: (context, index) => const SizedBox(
                       width: 16,

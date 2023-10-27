@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test_1/webtoon/models/webtoon.dart';
-import 'package:flutter_test_1/webtoon/views/detail_view.dart';
 
 class WebtoonCard extends StatelessWidget {
-  const WebtoonCard({super.key, required this.webtoon});
-
   final Webtoon webtoon;
+  final Function? onTap;
+
+  const WebtoonCard({
+    super.key,
+    required this.webtoon,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DetailView(webtoon: webtoon);
-            },
-            fullscreenDialog: true,
-          ),
-        );
+        onTap?.call();
       },
       child: Column(
         children: [
