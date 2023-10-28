@@ -55,6 +55,7 @@ class _DetailViewState extends State<DetailView> {
             height: 8,
           ),
           FutureBuilder(
+            future: webtoonDetail,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Padding(
@@ -80,7 +81,67 @@ class _DetailViewState extends State<DetailView> {
                 return const Text('...');
               }
             },
-            future: webtoonDetail,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          FutureBuilder(
+            future: webtoonEpisodes,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      final episode = snapshot.data![index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade400,
+                            borderRadius: BorderRadius.circular(
+                              16,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 16,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  episode.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(
+                        height: 16,
+                      );
+                    },
+                    itemCount: snapshot.data!.length,
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
           )
         ],
       ),
