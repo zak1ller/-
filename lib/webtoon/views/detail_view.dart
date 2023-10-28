@@ -51,6 +51,37 @@ class _DetailViewState extends State<DetailView> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 8,
+          ),
+          FutureBuilder(
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        snapshot.data!.about,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        '${snapshot.data!.genre} / ${snapshot.data!.age}',
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return const Text('...');
+              }
+            },
+            future: webtoonDetail,
+          )
         ],
       ),
     );
