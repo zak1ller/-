@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test_1/webtoon/models/webtoon.dart';
 import 'package:flutter_test_1/webtoon/models/webtoon_detail.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_test_1/webtoon/models/webtoon_episode.dart';
 import 'package:flutter_test_1/webtoon/services/webtoon_api_service.dart';
 import 'package:flutter_test_1/webtoon/widgets/webtoon_card.dart';
 import 'package:flutter_test_1/webtoon/widgets/webtoon_episode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({
@@ -21,12 +24,47 @@ class DetailView extends StatefulWidget {
 class _DetailViewState extends State<DetailView> {
   late Future<WebtoonDetail> webtoonDetail;
   late Future<List<WebtoonEpisode>> webtoonEpisodes;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+  List<String>? likedToons;
 
   @override
   void initState() {
     super.initState();
     webtoonDetail = WebtoonApiService.getToonById(widget.webtoon.id);
     webtoonEpisodes = WebtoonApiService.getEpisodesById(widget.webtoon.id);
+    initPrefs();
+  }
+
+  Future initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (likedToons!.contains(widget.webtoon.id)) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      await prefs.setStringList(
+        'likedToons',
+        [],
+      );
+    }
+  }
+
+  onLikeButtonTap() async {
+    if (likedToons != null) {
+      if (isLiked) {
+        likedToons!.remove(widget.webtoon.id);
+      } else {
+        likedToons!.add(widget.webtoon.id);
+      }
+      await prefs.setStringList('likedToons', likedToons!);
+    }
+    setState(() {
+      isLiked = !isLiked;
+    });
   }
 
   @override
@@ -38,6 +76,13 @@ class _DetailViewState extends State<DetailView> {
         foregroundColor: Colors.green,
         elevation: 1,
         title: Text(widget.webtoon.title),
+        actions: [
+          IconButton(
+              onPressed: onLikeButtonTap,
+              icon: isLiked
+                  ? const Icon(Icons.favorite_rounded)
+                  : const Icon(Icons.favorite_outline_rounded)),
+        ],
       ),
       body: Column(
         children: [
