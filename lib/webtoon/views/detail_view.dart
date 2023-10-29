@@ -4,6 +4,7 @@ import 'package:flutter_test_1/webtoon/models/webtoon_detail.dart';
 import 'package:flutter_test_1/webtoon/models/webtoon_episode.dart';
 import 'package:flutter_test_1/webtoon/services/webtoon_api_service.dart';
 import 'package:flutter_test_1/webtoon/widgets/webtoon_card.dart';
+import 'package:flutter_test_1/webtoon/widgets/webtoon_episode.dart';
 
 class DetailView extends StatefulWidget {
   const DetailView({
@@ -98,35 +99,9 @@ class _DetailViewState extends State<DetailView> {
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.green.shade400,
-                            borderRadius: BorderRadius.circular(
-                              16,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 16,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  episode.title,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
+                        child: Episode(
+                          episode: episode,
+                          webtoon: widget.webtoon,
                         ),
                       );
                     },
